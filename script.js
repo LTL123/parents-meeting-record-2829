@@ -33,7 +33,6 @@ const studentMap = {
   'shidiwen': { name: '施迪文', englishName: 'Steven', grade: '七年级', time: '8月28日（周四）- 上午11:40-12:00' },
   'xieruiqi': { name: '谢瑞麒', englishName: 'Austin', grade: '七年级', time: '8月28日（周四）- 上午11:10-11:30' },
   'hongdaren': { name: '洪大仁', englishName: 'Tj', grade: '七年级', time: '8月29日（周五）- 下午2:30 - 2:50' },
-  'wangyueyang': { name: '王阅洋', englishName: 'Chris', grade: '七年级', time: '' },
   'duenyong': { name: '杜恩永', englishName: 'Jason', grade: '七年级', time: '8月28日（周四）- 下午3:40-4:00' },
   'liangpeichen': { name: '梁培宸', englishName: 'Abby', grade: '七年级', time: '' }
 };
