@@ -34,7 +34,8 @@ const studentMap = {
   'xieruiqi': { name: '谢瑞麒', englishName: 'Austin', grade: '七年级', time: '8月28日（周四）- 上午11:10-11:30' },
   'hongdaren': { name: '洪大仁', englishName: 'Tj', grade: '七年级', time: '8月29日（周五）- 下午2:30 - 2:50' },
   'wangyueyang': { name: '王阅洋', englishName: 'Chris', grade: '七年级', time: '' },
-  'duenyong': { name: '杜恩永', englishName: 'Jason', grade: '七年级', time: '8月28日（周四）- 下午3:40-4:00' }
+  'duenyong': { name: '杜恩永', englishName: 'Jason', grade: '七年级', time: '8月28日（周四）- 下午3:40-4:00' },
+  'liangpeichen': { name: '梁培宸', englishName: 'Abby', grade: '七年级', time: '' }
 };
 
 AV.init({
@@ -62,6 +63,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const savedRecordsContainer = document.querySelector('.saved-records-container');
   const savedRecordsList = document.getElementById('saved-records-list');
   const viewSavedRecordsBtn = document.getElementById('view-saved-records-btn');
+  const backToListFromSavedBtn = document.getElementById('back-to-list-from-saved');
 
   let currentStudentId = null;
   let allStudentCards = [];
@@ -99,6 +101,7 @@ document.addEventListener('DOMContentLoaded', () => {
   function showStudentList() {
     studentListContainer.style.display = 'block';
     meetingRecordContainer.style.display = 'none';
+    savedRecordsContainer.style.display = 'none';
     studentListContainer.classList.add('fade-in');
   }
 
@@ -224,6 +227,7 @@ document.addEventListener('DOMContentLoaded', () => {
   viewSavedRecordsBtn.addEventListener('click', showSavedRecords);
 
   backToListBtn.addEventListener('click', showStudentList);
+  backToListFromSavedBtn.addEventListener('click', showStudentList);
 
   discussionInput.addEventListener('input', () => {
     if (currentStudentId) {
