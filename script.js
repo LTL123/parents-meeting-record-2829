@@ -1,4 +1,21 @@
 const studentMap = {
+  'longsiyu': { name: '龙思羽', englishName: 'Amy', grade: '六年级', time: '8月28日（周四）- 上午10:30-10:50' },
+  'liangyuke': { name: '梁钰可', englishName: 'Yuki', grade: '六年级', time: '8月28日（周四）- 上午9:00-9:20' },
+  'huangmengqian': { name: '黄梦芊', englishName: 'Sarah', grade: '六年级', time: '8月28日（周四）- 下午4:10-4:30' },
+  'suweichao': { name: '苏炜超', englishName: 'Richard', grade: '六年级', time: '8月28日（周四）- 下午2:00-2:20' },
+  'guanyitang': { name: '管伊樘', englishName: 'Taylor', grade: '六年级', time: '8月28日（周四）- 上午11:10-11:30' },
+  'wuzhixiang': { name: '吴止象', englishName: 'Samuel', grade: '六年级', time: '8月28日（周四）- 上午11:40-12:00' },
+  'chencheng': { name: '陈诚', englishName: 'orange', grade: '六年级', time: '8月28日（周四）- 上午11:10-11:30' },
+  'niukai': { name: '牛恺', englishName: 'Eddy', grade: '六年级', time: '8月28日（周四）- 下午4:10-4:30' },
+  'huhejing': { name: '胡赫靖', englishName: 'Butterfly', grade: '六年级', time: '8月28日（周四）- 上午11:10-11:30' },
+  'benzihan': { name: '贲子晗', englishName: 'Ella', grade: '六年级', time: '8月28日（周四）- 下午4:10-4:30' },
+  'lisibei': { name: '李思贝', englishName: 'Bella', grade: '六年级', time: '8月28日（周四）- 下午3:40-4:00' },
+  'xuyuzhen': { name: '许妤箴', englishName: 'Zoe', grade: '六年级', time: '8月28日（周四）- 上午10:30-10:50' },
+  'quanyi': { name: '全翌', englishName: '全翌', grade: '六年级', time: '8月28日（周四）- 下午3:40-4:00' },
+  'weisiming': { name: '魏思名', englishName: 'Siming', grade: '六年级', time: '8月28日（周四）- 下午3:00-3:20' },
+  'chenjiaxiang': { name: '陈佳翔', englishName: 'Jimmy', grade: '六年级', time: '8月28日（周四）- 下午3:40-4:00' },
+  'liuzhu': { name: '刘珠', englishName: 'Suzy', grade: '六年级', time: '8月28日（周四）- 下午2:00-2:20' },
+  'liuhongxuan': { name: '柳鸿轩', englishName: 'kevin', grade: '六年级', time: '8月28日（周四）- 下午3:00-3:20' },
   'wangyiyang': { name: '王依杨', englishName: 'Kitty', grade: '七年级', time: '8月28日（周四）- 上午10:30-10:50' },
   'cheyanzhen': { name: '车彦臻', englishName: 'Snow', grade: '七年级', time: '8月28日（周四）- 下午4:10-4:30' },
   'wangruoxuan': { name: '王若瑄', englishName: 'Jessica', grade: '七年级', time: '' },
@@ -129,11 +146,50 @@ document.addEventListener('DOMContentLoaded', () => {
     studentList.innerHTML = '';
     allStudentCards = [];
     
-    Object.keys(studentMap).forEach(studentId => {
+    const sortedStudentIds = Object.keys(studentMap).sort((a, b) => {
+        const timeA = parseMeetingTime(studentMap[a].time);
+        const timeB = parseMeetingTime(studentMap[b].time);
+
+        if (timeA.day !== timeB.day) {
+            return timeA.day - timeB.day;
+        }
+        if (timeA.hour !== timeB.hour) {
+            return timeA.hour - timeB.hour;
+        }
+        return timeA.minute - timeB.minute;
+    });
+
+    sortedStudentIds.forEach(studentId => {
       const card = createStudentCard(studentId, studentMap[studentId]);
       allStudentCards.push(card);
       studentList.appendChild(card);
     });
+  }
+
+  function parseMeetingTime(timeStr) {
+    if (!timeStr) {
+        return { day: Infinity, hour: Infinity, minute: Infinity };
+    }
+    const dayMatch = timeStr.match(/(\d+)日/);
+    const timeMatch = timeStr.match(/(上午|下午)(\d+):(\d+)/);
+
+    if (!dayMatch || !timeMatch) {
+        return { day: Infinity, hour: Infinity, minute: Infinity };
+    }
+
+    const day = parseInt(dayMatch[1], 10);
+    let hour = parseInt(timeMatch[2], 10);
+    const minute = parseInt(timeMatch[3], 10);
+    const period = timeMatch[1];
+
+    if (period === '下午' && hour !== 12) {
+        hour += 12;
+    }
+    if (period === '上午' && hour === 12) { // 12 AM is 0
+        hour = 0;
+    }
+
+    return { day, hour, minute };
   }
 
   function filterStudents() {
@@ -163,7 +219,7 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   resetFormBtn.addEventListener('click', () => {
-    if (confirm('确定要重置表单吗？未保存的内容将丢失。\n(Are you sure you want to reset the form? Unsaved content will be lost.)')) {
+    if (confirm('确定要重置表单吗？未保存的内容将丢失。\\n(Are you sure you want to reset the form? Unsaved content will be lost.)')) {
       discussionInput.value = '';
       recordTimeInput.value = dayjs().format('YYYY-MM-DD HH:mm:ss');
       if (currentStudentId) {
@@ -205,7 +261,7 @@ document.addEventListener('DOMContentLoaded', () => {
       
       await meetingRecord.save();
       
-      showMessage('会议记录保存成功！您可以继续编辑或返回学生列表。\n(Meeting record saved successfully! You can continue editing or return to the student list.)', 'success');
+      showMessage('会议记录保存成功！您可以继续编辑或返回学生列表。\\n(Meeting record saved successfully! You can continue editing or return to the student list.)', 'success');
       
       // Clear local storage after successful save
       if (currentStudentId) {
@@ -214,7 +270,7 @@ document.addEventListener('DOMContentLoaded', () => {
       
     } catch (error) {
       console.error('保存失败:', error);
-      showMessage('保存失败，请检查网络连接后重试\n(Save failed, please check your network connection and try again)', 'error');
+      showMessage('保存失败，请检查网络连接后重试\\n(Save failed, please check your network connection and try again)', 'error');
     } finally {
       saveRecordBtn.disabled = false;
       saveRecordBtn.classList.remove('loading');
