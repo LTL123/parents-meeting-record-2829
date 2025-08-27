@@ -19,6 +19,9 @@
       <div class="container-header">
         <i class="fas fa-users"></i>
         <h2>学生管理 (Student Management)</h2>
+        <button class="btn btn-secondary" id="view-saved-records-btn" style="margin-left: auto;">
+          <i class="fas fa-archive"></i> View Saved
+        </button>
       </div>
       
       <div class="stats-grid">
@@ -90,6 +93,14 @@
           </button>
         </div>
       </form>
+    </div>
+
+    <div class="saved-records-container" style="display: none;">
+      <div class="container-header">
+        <i class="fas fa-archive"></i>
+        <h2>已存记录 (Saved Records)</h2>
+      </div>
+      <ul id="saved-records-list"></ul>
     </div>
   </div>
   <script src="https://lib.youware.com/youware-lib-editor.1754557047.js" id="yourware-lib"></script><script src="https://cdn.jsdelivr.net/npm/leancloud-storage@4.13.0/dist/av-min.js"></script>

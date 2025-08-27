@@ -59,6 +59,9 @@ document.addEventListener('DOMContentLoaded', () => {
   const resetFormBtn = document.getElementById('reset-form');
   const searchInput = document.getElementById('search-input');
   const messageContainer = document.getElementById('message-container');
+  const savedRecordsContainer = document.querySelector('.saved-records-container');
+  const savedRecordsList = document.getElementById('saved-records-list');
+  const viewSavedRecordsBtn = document.getElementById('view-saved-records-btn');
 
   let currentStudentId = null;
   let allStudentCards = [];
@@ -112,6 +115,14 @@ document.addEventListener('DOMContentLoaded', () => {
     meetingRecordContainer.style.display = 'block';
     meetingRecordContainer.classList.add('fade-in');
     messageContainer.innerHTML = '';
+  }
+
+  function showSavedRecords() {
+    studentListContainer.style.display = 'none';
+    meetingRecordContainer.style.display = 'none';
+    savedRecordsContainer.style.display = 'block';
+    savedRecordsContainer.classList.add('fade-in');
+    renderSavedRecords();
   }
 
   function createStudentCard(studentId, studentInfo) {
@@ -210,6 +221,8 @@ document.addEventListener('DOMContentLoaded', () => {
   // Event listeners
   searchInput.addEventListener('input', filterStudents);
   
+  viewSavedRecordsBtn.addEventListener('click', showSavedRecords);
+
   backToListBtn.addEventListener('click', showStudentList);
 
   discussionInput.addEventListener('input', () => {
@@ -260,6 +273,17 @@ document.addEventListener('DOMContentLoaded', () => {
       meetingRecord.set('discussion', discussionInput.value.trim());
       
       await meetingRecord.save();
+
+      // Save to local storage
+      const record = {
+        studentId: currentStudentId,
+        studentName: studentNameInput.value,
+        grade: gradeInput.value,
+        meetingTime: meetingTimeInput.value,
+        recordTime: recordTimeInput.value,
+        discussion: discussionInput.value.trim(),
+      };
+      saveRecordLocally(record);
       
       showMessage('会议记录保存成功！您可以继续编辑或返回学生列表。\\n(Meeting record saved successfully! You can continue editing or return to the student list.)', 'success');
       
@@ -277,6 +301,45 @@ document.addEventListener('DOMContentLoaded', () => {
       saveRecordBtn.innerHTML = originalText;
     }
   });
+
+  function saveRecordLocally(record) {
+    const records = JSON.parse(localStorage.getItem('meetingRecords')) || [];
+    const existingRecordIndex = records.findIndex(r => r.studentId === record.studentId);
+    if (existingRecordIndex > -1) {
+      records[existingRecordIndex] = record;
+    } else {
+      records.push(record);
+    }
+    localStorage.setItem('meetingRecords', JSON.stringify(records));
+  }
+
+  function renderSavedRecords() {
+    savedRecordsList.innerHTML = '';
+    const records = JSON.parse(localStorage.getItem('meetingRecords')) || [];
+    if (records.length === 0) {
+      savedRecordsList.innerHTML = '<p style="text-align: center; color: #888;">暂无已存记录 (No saved records yet)</p>';
+      return;
+    }
+
+    records.forEach(record => {
+      const li = document.createElement('li');
+      li.className = 'student-card'; // Reuse styling
+      li.innerHTML = `
+        <div class="student-info">
+          <div class="student-details">
+            <h3>${record.studentName}</h3>
+            <span class="student-grade" style="background-color: ${getGradeColor(record.grade)}20; color: ${getGradeColor(record.grade)}">${record.grade}</span>
+            <div class="student-time">
+              <i class="fas fa-clock"></i>
+              Recorded: ${record.recordTime}
+            </div>
+            <p class="discussion-preview">${record.discussion.substring(0, 100)}...</p>
+          </div>
+        </div>
+      `;
+      savedRecordsList.appendChild(li);
+    });
+  }
 
   // Auto-save functionality
   let autoSaveTimeout;

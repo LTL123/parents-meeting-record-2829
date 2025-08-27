@@ -543,3 +543,27 @@ body {
     padding: 1rem;
   }
 }
+
+.saved-records-container {
+  padding: 30px;
+  background-color: #ffffff;
+  border-radius: 15px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+}
+
+#saved-records-list .student-card {
+  cursor: default;
+}
+
+#saved-records-list .discussion-preview {
+  margin-top: 10px;
+  font-size: 14px;
+  color: #555;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+.student-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+}
