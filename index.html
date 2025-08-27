@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>家长会议记录系统</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="background-pattern"></div>
+  <div id="app">
+    <div class="header fade-in">
+      <h1><i class="fas fa-graduation-cap"></i> 家长会议记录系统 (Parent Meeting Record System)</h1>
+    </div>
+
+    <div class="student-list-container fade-in">
+      <div class="container-header">
+        <i class="fas fa-users"></i>
+        <h2>学生管理 (Student Management)</h2>
+      </div>
+      
+      <div class="stats-grid">
+        <div class="stat-card">
+          <i class="fas fa-clock"></i>
+          <div class="stat-number">8月28-29日</div>
+          <div class="stat-label">会议时间 (Meeting Time)</div>
+        </div>
+      </div>
+
+      <div class="search-container">
+        <i class="fas fa-search search-icon"></i>
+        <input type="text" class="search-input" id="search-input" placeholder="搜索学生姓名、英文名或年级...">
+      </div>
+
+      <ul id="student-list"></ul>
+    </div>
+
+    <div class="meeting-record-container fade-in" style="display: none;">
+      <div class="record-header">
+        <div class="record-title">
+          <i class="fas fa-edit"></i>
+          <h2 id="record-title">会议记录 (Meeting Record)</h2>
+        </div>
+        <button class="btn btn-secondary" id="back-to-list">
+          <i class="fas fa-arrow-left"></i>
+          返回列表 (Back to List)
+        </button>
+      </div>
+
+      <div id="message-container"></div>
+
+      <form id="meeting-form">
+        <div class="form-row">
+          <div class="form-group">
+            <label for="studentName"><i class="fas fa-user"></i> 学生姓名 (Student Name)</label>
+            <input type="text" id="studentName" disabled>
+          </div>
+          <div class="form-group">
+            <label for="grade"><i class="fas fa-school"></i> 年级 (Grade)</label>
+            <input type="text" id="grade" disabled>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="meetingTime"><i class="fas fa-calendar-alt"></i> 会议时间 (Meeting Time)</label>
+            <input type="text" id="meetingTime" disabled>
+          </div>
+          <div class="form-group">
+            <label for="recordTime"><i class="fas fa-clock"></i> 记录时间 (Record Time)</label>
+            <input type="text" id="recordTime" disabled>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="discussion"><i class="fas fa-comments"></i> 讨论内容 (Discussion Content)</label>
+          <textarea id="discussion" placeholder="请详细记录家长会议的讨论内容、学生表现、学习建议、家长反馈等重要信息... (Please record meeting discussions, student performance, learning suggestions, parent feedback and other important information in detail...)"></textarea>
+        </div>
+
+        <div class="button-group">
+          <button type="button" class="btn btn-secondary" id="reset-form">
+            <i class="fas fa-undo"></i>
+            重置表单 (Reset Form)
+          </button>
+          <button type="submit" class="btn btn-primary" id="save-record">
+            <i class="fas fa-save"></i>
+            保存记录 (Save Record)
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+  <script src="https://lib.youware.com/youware-lib-editor.1754557047.js" id="yourware-lib"></script><script src="https://cdn.jsdelivr.net/npm/leancloud-storage@4.13.0/dist/av-min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/dayjs@1.11.10/dayjs.min.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
